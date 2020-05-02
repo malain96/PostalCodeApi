@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using PostalCodeApi.Persistence.Contexts;
 
 namespace PostalCodeApi
 {
@@ -26,6 +28,7 @@ namespace PostalCodeApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddDbContext<PostalCodeDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("PostalCodeDb")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
