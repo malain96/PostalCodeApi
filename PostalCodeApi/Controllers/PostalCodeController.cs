@@ -4,6 +4,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PostalCodeApi.Domain.Models;
 using PostalCodeApi.Domain.Services;
+using PostalCodeApi.Extensions;
 using PostalCodeApi.Resources;
 
 namespace PostalCodeApi.Controllers
@@ -20,18 +21,15 @@ namespace PostalCodeApi.Controllers
             _postalCodeService = postalCodeService;
             _mapper = mapper;
         }
-
         
-        // @Todo Put searching paging and sorting in a resource
-        // @Todo Create a pagedResource response (+sorting) (page num, count, size, has next, has previous)
+        // @Todo Create error return 
         [HttpGet]
-        public async Task<IEnumerable<PostalCodeResource>> Search(int? pageNumber, int? pageSize, string sort, string code, string countryIso)
+        public async Task<PagedAndSortedResponseResource<PostalCodeResource>> Search(
+            [FromQuery] PagedAndSortedRequestResource pagedAndSortedRequest, string code, string countryIso)
         {
-            var currentSort = sort ?? "asc";
-            var currentPageNumber = pageNumber ?? 1;
-            var currentPageSize = pageSize ?? 5;
-            var postalCodes = await _postalCodeService.SearchAsync(currentPageNumber, currentPageSize, currentSort, code, countryIso);
-            var resources = _mapper.Map<IEnumerable<PostalCode>, IEnumerable<PostalCodeResource>>(postalCodes);
+            var pagedAndSortedPostalCodes = await _postalCodeService.SearchAsync(pagedAndSortedRequest.PageNumber,
+                pagedAndSortedRequest.PageSize, pagedAndSortedRequest.Sort, code, countryIso);
+            var resources = _mapper.Map<PagedAndSortedList<PostalCode>, PagedAndSortedResponseResource<PostalCodeResource>>(pagedAndSortedPostalCodes);
 
             return resources;
         }

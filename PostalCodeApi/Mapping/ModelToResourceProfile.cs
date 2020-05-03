@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using AutoMapper;
 using PostalCodeApi.Domain.Models;
+using PostalCodeApi.Extensions;
 using PostalCodeApi.Resources;
 
 namespace PostalCodeApi.Mapping
@@ -14,6 +15,8 @@ namespace PostalCodeApi.Mapping
             CreateMap<PostalCode, PostalCodeResource>().ForMember(
                 dest => dest.Cities,
                 opt => opt.MapFrom(src => src.PostalCodeCities.Select(pcc => pcc.City)));
+            
+            CreateMap<PagedAndSortedList<PostalCode>, PagedAndSortedResponseResource<PostalCodeResource>>();
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PostalCodeApi.Domain.Models;
 using PostalCodeApi.Domain.Repositories;
+using PostalCodeApi.Extensions;
 using PostalCodeApi.Persistence.Contexts;
 
 namespace PostalCodeApi.Persistence.Repositories
@@ -14,7 +15,8 @@ namespace PostalCodeApi.Persistence.Repositories
         {
         }
 
-        public async Task<IEnumerable<PostalCode>> SearchAsync(int pageNumber, int pageSize, string sort, string code,
+        public async Task<PagedAndSortedList<PostalCode>> SearchAsync(int pageNumber, int pageSize, string sort,
+            string code,
             string countryIso)
         {
             IQueryable<PostalCode> postalCodes = _context.PostalCodes.Include(pc => pc.PostalCodeCities)
@@ -24,8 +26,8 @@ namespace PostalCodeApi.Persistence.Repositories
             postalCodes = sort.ToLowerInvariant() == "desc"
                 ? postalCodes.OrderByDescending(postalCode => postalCode.Code)
                 : postalCodes.OrderBy(postalCode => postalCode.Code);
-            return await postalCodes.Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize).ToListAsync();
+            return await PagedAndSortedList<PostalCode>.ToPagedListAsync(postalCodes, pageNumber, pageSize,
+                sort.ToLowerInvariant(), "code");
         }
     }
 }
