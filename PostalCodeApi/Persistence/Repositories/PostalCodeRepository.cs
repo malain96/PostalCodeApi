@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PostalCodeApi.Domain.Models;
@@ -13,9 +14,18 @@ namespace PostalCodeApi.Persistence.Repositories
         {
         }
 
-        public async Task<IEnumerable<PostalCode>> SearchAsync()
+        public async Task<IEnumerable<PostalCode>> SearchAsync(int pageNumber, int pageSize, string sort, string code,
+            string countryIso)
         {
-            return await _context.PostalCodes.ToListAsync();
+            IQueryable<PostalCode> postalCodes = _context.PostalCodes.Include(pc => pc.PostalCodeCities)
+                .ThenInclude(pcc => pcc.City).Where(pc =>
+                    (string.IsNullOrEmpty(code) || pc.Code.StartsWith(code)) &&
+                    (string.IsNullOrEmpty(countryIso) || pc.CountryIso == countryIso));
+            postalCodes = sort.ToLowerInvariant() == "desc"
+                ? postalCodes.OrderByDescending(postalCode => postalCode.Code)
+                : postalCodes.OrderBy(postalCode => postalCode.Code);
+            return await postalCodes.Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize).ToListAsync();
         }
     }
 }
