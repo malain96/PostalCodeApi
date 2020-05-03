@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,7 +12,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
+using PostalCodeApi.Domain.Repositories;
+using PostalCodeApi.Domain.Services;
 using PostalCodeApi.Persistence.Contexts;
+using PostalCodeApi.Persistence.Repositories;
+using PostalCodeApi.Services;
 
 namespace PostalCodeApi
 {
@@ -28,7 +34,23 @@ namespace PostalCodeApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            
+            // Database
             services.AddDbContext<PostalCodeDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("PostalCodeDb")));
+            
+            services.AddScoped<IPostalCodeRepository, PostalCodeRepository>();
+            services.AddScoped<IPostalCodeService, PostalCodeService>();
+            
+            // Add Swagger doc
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Postal Code API", Version = "v1" });
+            });
+
+            services.AddSingleton<IConfiguration>(Configuration);
+            
+            // Add auto mapper 
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,6 +60,13 @@ namespace PostalCodeApi
             {
                 app.UseDeveloperExceptionPage();
             }
+            
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Postal Code API V1");
+            });
 
             app.UseHttpsRedirection();
 
