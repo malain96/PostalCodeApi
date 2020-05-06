@@ -39,7 +39,13 @@ namespace PostalCodeApi
             services.AddDbContext<PostalCodeDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("PostalCodeDb")));
             
             services.AddScoped<IPostalCodeRepository, PostalCodeRepository>();
+            services.AddScoped<ICityRepository, CityRepository>();
+            services.AddScoped<IPostalCodeCityRepository, PostalCodeCityRepository>();
             services.AddScoped<IPostalCodeService, PostalCodeService>();
+            services.AddScoped<ICityService, CityService>();
+            services.AddScoped<IPostalCodeCityService, PostalCodeCityService>();
+            services.AddScoped<IGeoNamesService, GeoNamesService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             
             // Add Swagger doc
             services.AddSwaggerGen(c =>
@@ -51,6 +57,11 @@ namespace PostalCodeApi
             
             // Add auto mapper 
             services.AddAutoMapper(typeof(Startup));
+            
+            // Remove auto model state validation 
+            services.Configure<ApiBehaviorOptions>(apiBehaviorOptions => {
+                apiBehaviorOptions.SuppressModelStateInvalidFilter = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

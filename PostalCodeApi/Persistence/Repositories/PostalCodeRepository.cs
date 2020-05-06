@@ -29,5 +29,16 @@ namespace PostalCodeApi.Persistence.Repositories
             return await PagedAndSortedList<PostalCode>.ToPagedListAsync(postalCodes, pageNumber, pageSize,
                 sort.ToLowerInvariant(), "code");
         }
+        
+        public async Task AddAsync(PostalCode postalCode)
+        {
+            await _context.PostalCodes.AddAsync(postalCode);
+        }
+
+        public async Task<PostalCode> FindMatchAsync(PostalCode postalCode)
+        {
+            return await _context.PostalCodes.FirstOrDefaultAsync(pc =>
+                pc.Code == postalCode.Code && pc.CountryIso == postalCode.CountryIso);
+        }
     }
 }
