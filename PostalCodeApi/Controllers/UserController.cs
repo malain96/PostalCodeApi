@@ -22,14 +22,33 @@ namespace PostalCodeApi.Controllers
             _mapper = mapper;
         }
 
-        //@Todo get one
+        /// <summary>
+        ///  Get a user by id.
+        /// </summary>
+        /// <param name="resource">User data.</param>
+        /// <returns>Response for the request.</returns>
+        [HttpGet]
+        [ProducesResponseType(typeof(UserResource), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetAsync([FromQuery]GetUserResource resource)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new ErrorResource(StatusCodes.Status400BadRequest, ModelState.GetErrorMessages()));
+            
+            var user = await _userService.GetByIdAsync(resource.Id);
+            
+            var userResource = _mapper.Map<User, UserResource>(user);
+            return Ok(userResource);
+        }
+        
         //@Todo get all
         //@Todo update password
         //@Todo update isAdmin
         //@Todo delete
         
         /// <summary>
-        ///     Saves a new user.
+        ///  Saves a new user.
         /// </summary>
         /// <param name="resource">User data.</param>
         /// <returns>Response for the request.</returns>
@@ -53,8 +72,8 @@ namespace PostalCodeApi.Controllers
                 return BadRequest(new ErrorResource(StatusCodes.Status400BadRequest, result.Message));
             }
 
-            var categoryResource = _mapper.Map<User, UserResource>(result.Resource);
-            return StatusCode(StatusCodes.Status201Created,categoryResource);
+            var userResource = _mapper.Map<User, UserResource>(result.Resource);
+            return StatusCode(StatusCodes.Status201Created,userResource);
         }
     }
 }

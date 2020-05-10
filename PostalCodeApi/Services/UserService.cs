@@ -23,14 +23,14 @@ namespace PostalCodeApi.Services
             _unitOfWork = unitOfWork;
         }
 
-        public Task<PagedAndSortedList<User>> GetAll(int pageNumber, int pageSize, string sort)
+        public async Task<PagedAndSortedList<User>> GetAllAsync(int pageNumber, int pageSize, string sort)
         {
-            throw new NotImplementedException();
+            return await _userRepository.ListAllAsync(pageNumber, pageSize, sort);
         }
 
-        public User GetById(int id)
+        public async Task<User> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _userRepository.FindByIdAsync(id);
         }
 
         public Task<UserResponse> UpdatePasswordAsync(int id, string oldPassword, string newPassword)

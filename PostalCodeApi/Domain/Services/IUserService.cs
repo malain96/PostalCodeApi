@@ -7,8 +7,8 @@ namespace PostalCodeApi.Domain.Services
 {
     public interface IUserService
     {
-        Task<PagedAndSortedList<User>> GetAll(int pageNumber, int pageSize, string sort);
-        User GetById(int id);
+        Task<PagedAndSortedList<User>> GetAllAsync(int pageNumber, int pageSize, string sort);
+        Task<User> GetByIdAsync(int id);
 
         Task<UserResponse> UpdatePasswordAsync(int id, string oldPassword, string newPassword);
 
