@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using PostalCodeApi.Domain.Models;
 using PostalCodeApi.Extensions;
 
@@ -9,10 +8,9 @@ namespace PostalCodeApi.Domain.Repositories
     {
         Task<PagedAndSortedList<PostalCode>> SearchAsync(int pageNumber, int pageSize, string sort, string code,
             string countryIso);
-        
-        Task AddAsync(PostalCode postalCode);
-        
-        Task<PostalCode> FindMatchAsync(PostalCode postalCode);
 
+        Task AddAsync(PostalCode postalCode);
+
+        Task<PostalCode> FindMatchAsync(PostalCode postalCode);
     }
 }

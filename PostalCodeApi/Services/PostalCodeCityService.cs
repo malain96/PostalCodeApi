@@ -7,7 +7,7 @@ using PostalCodeApi.Domain.Services.Communication;
 
 namespace PostalCodeApi.Services
 {
-    public class PostalCodeCityService: IPostalCodeCityService
+    public class PostalCodeCityService : IPostalCodeCityService
     {
         private readonly IPostalCodeCityRepository _postalCodeCityRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -17,24 +17,24 @@ namespace PostalCodeApi.Services
             _postalCodeCityRepository = postalCodeCityRepository;
             _unitOfWork = unitOfWork;
         }
-        
-        public async Task<SavePostalCodeCityResponse> FindMatchOrSaveAsync(PostalCodeCity postalCodeCity)
+
+        public async Task<PostalCodeCityResponse> FindMatchOrSaveAsync(PostalCodeCity postalCodeCity)
         {
             var existingPostalCodeCity = await _postalCodeCityRepository.FindMatchAsync(postalCodeCity);
 
             if (existingPostalCodeCity != null)
-                return new SavePostalCodeCityResponse(existingPostalCodeCity);
+                return new PostalCodeCityResponse(existingPostalCodeCity);
 
             try
             {
                 await _postalCodeCityRepository.AddAsync(postalCodeCity);
                 await _unitOfWork.CompleteAsync();
 
-                return new SavePostalCodeCityResponse(postalCodeCity);
+                return new PostalCodeCityResponse(postalCodeCity);
             }
             catch (Exception ex)
             {
-                return new SavePostalCodeCityResponse($"An error occurred when saving the postal code city: {ex.Message}");
+                return new PostalCodeCityResponse($"An error occurred when saving the postal code city: {ex.Message}");
             }
         }
     }

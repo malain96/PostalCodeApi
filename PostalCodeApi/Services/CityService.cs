@@ -17,24 +17,24 @@ namespace PostalCodeApi.Services
             _cityRepository = cityRepository;
             _unitOfWork = unitOfWork;
         }
-        
-        public async Task<SaveCityResponse> FindMatchOrSaveAsync(City city)
+
+        public async Task<CityResponse> FindMatchOrSaveAsync(City city)
         {
             var existingCity = await _cityRepository.FindMatchAsync(city);
 
             if (existingCity != null)
-                return new SaveCityResponse(existingCity);
+                return new CityResponse(existingCity);
 
             try
             {
                 await _cityRepository.AddAsync(city);
                 await _unitOfWork.CompleteAsync();
 
-                return new SaveCityResponse(city);
+                return new CityResponse(city);
             }
             catch (Exception ex)
             {
-                return new SaveCityResponse($"An error occurred when saving the city: {ex.Message}");
+                return new CityResponse($"An error occurred when saving the city: {ex.Message}");
             }
         }
     }

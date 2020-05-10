@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.IO.Compression;
 using System.Net;
 using System.Text;
@@ -12,10 +11,10 @@ namespace PostalCodeApi.Services
 {
     public class GeoNamesService : IGeoNamesService
     {
-        private readonly IConfiguration _configuration;
-        private readonly IPostalCodeService _postalCodeService;
         private readonly ICityService _cityService;
+        private readonly IConfiguration _configuration;
         private readonly IPostalCodeCityService _postalCodeCityService;
+        private readonly IPostalCodeService _postalCodeService;
 
         public GeoNamesService(IConfiguration configuration, IPostalCodeService postalCodeService,
             ICityService cityService, IPostalCodeCityService postalCodeCityService)
@@ -85,10 +84,7 @@ namespace PostalCodeApi.Services
                 // Clean up the downloads folder
                 var dir = new DirectoryInfo(downloadsFolder);
 
-                foreach (var fi in dir.GetFiles())
-                {
-                    fi.Delete();
-                }
+                foreach (var fi in dir.GetFiles()) fi.Delete();
             }
         }
     }

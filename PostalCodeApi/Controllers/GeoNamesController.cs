@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PostalCodeApi.Domain.Services;
 using PostalCodeApi.Extensions;
@@ -9,7 +10,7 @@ namespace PostalCodeApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GeoNamesController: ControllerBase
+    public class GeoNamesController : ControllerBase
     {
         private readonly IGeoNamesService _geoNamesService;
 
@@ -17,16 +18,16 @@ namespace PostalCodeApi.Controllers
         {
             _geoNamesService = geoNamesService;
         }
-        
+
         [Route("import")]
         [HttpGet]
-        [ProducesResponseType(typeof(IActionResult), 200)]
-        [ProducesResponseType(typeof(ErrorResource), 400)]
-        [ProducesResponseType(typeof(ErrorResource), 500)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Import([FromQuery] ImportGeoNamesResource resource)
         {
             if (!ModelState.IsValid)
-                return Ok(new ErrorResource(400,ModelState.GetErrorMessages()));
+                return BadRequest(new ErrorResource(StatusCodes.Status400BadRequest, ModelState.GetErrorMessages()));
 
             try
             {
@@ -34,10 +35,11 @@ namespace PostalCodeApi.Controllers
             }
             catch (Exception ex)
             {
-                return Ok(new ErrorResource(500,ex.Message));
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new ErrorResource(StatusCodes.Status500InternalServerError, ex.Message));
             }
-            
-            return Ok();
+
+            return NoContent();
         }
     }
 }

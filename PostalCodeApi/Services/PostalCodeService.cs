@@ -26,23 +26,23 @@ namespace PostalCodeApi.Services
             return await _postalCodeRepository.SearchAsync(pageNumber, pageSize, sort, code, countryIso);
         }
 
-        public async Task<SavePostalCodeResponse> FindMatchOrSaveAsync(PostalCode postalCode)
+        public async Task<PostalCodeResponse> FindMatchOrSaveAsync(PostalCode postalCode)
         {
             var existingPostalCode = await _postalCodeRepository.FindMatchAsync(postalCode);
 
             if (existingPostalCode != null)
-                return new SavePostalCodeResponse(existingPostalCode);
+                return new PostalCodeResponse(existingPostalCode);
 
             try
             {
                 await _postalCodeRepository.AddAsync(postalCode);
                 await _unitOfWork.CompleteAsync();
 
-                return new SavePostalCodeResponse(postalCode);
+                return new PostalCodeResponse(postalCode);
             }
             catch (Exception ex)
             {
-                return new SavePostalCodeResponse($"An error occurred when saving the postal code: {ex.Message}");
+                return new PostalCodeResponse($"An error occurred when saving the postal code: {ex.Message}");
             }
         }
     }

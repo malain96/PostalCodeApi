@@ -15,8 +15,10 @@ namespace PostalCodeApi.Mapping
             CreateMap<PostalCode, PostalCodeResource>().ForMember(
                 dest => dest.Cities,
                 opt => opt.MapFrom(src => src.PostalCodeCities.Select(pcc => pcc.City)));
-            
+
             CreateMap<PagedAndSortedList<PostalCode>, PagedAndSortedResponseResource<PostalCodeResource>>();
+
+            CreateMap<User, UserResource>();
         }
     }
 }

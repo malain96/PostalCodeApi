@@ -10,7 +10,7 @@ namespace PostalCodeApi.Persistence.Repositories
 
         public UnitOfWork(PostalCodeDbContext context)
         {
-            _context = context;     
+            _context = context;
         }
 
         public async Task CompleteAsync()

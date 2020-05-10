@@ -10,8 +10,14 @@ namespace PostalCodeApi.Persistence.Contexts
         {
         }
 
+        // Define all tables
+        public DbSet<PostalCode> PostalCodes { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<PostalCodeCity> PostalCodeCities { get; set; }
+        public DbSet<User> Users { get; set; }
+
         /// <summary>
-        /// Define tables' relations and keys
+        ///     Define tables' relations and keys
         /// </summary>
         /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,10 +37,5 @@ namespace PostalCodeApi.Persistence.Contexts
                 .WithMany(c => c.PostalCodeCities)
                 .HasForeignKey(pcc => pcc.CityId);
         }
-
-        // Define all tables
-        public DbSet<PostalCode> PostalCodes { get; set; }
-        public DbSet<City> Cities { get; set; }
-        public DbSet<PostalCodeCity> PostalCodeCities { get; set; }
     }
 }

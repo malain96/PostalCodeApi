@@ -6,6 +6,6 @@ namespace PostalCodeApi.Domain.Services
 {
     public interface IPostalCodeCityService
     {
-        Task<SavePostalCodeCityResponse> FindMatchOrSaveAsync(PostalCodeCity postalCodeCity);
+        Task<PostalCodeCityResponse> FindMatchOrSaveAsync(PostalCodeCity postalCodeCity);
     }
 }
