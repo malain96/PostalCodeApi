@@ -67,7 +67,34 @@ namespace PostalCodeApi.Controllers
 
         //@Todo update password
         //@Todo update isAdmin
-        //@Todo delete
+        
+        /// <summary>
+        ///  Delete a user by id.
+        /// </summary>
+        /// <param name="id">User's id.</param>
+        /// <returns>Response for the request.</returns>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(UserResource), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new ErrorResource(StatusCodes.Status400BadRequest, ModelState.GetErrorMessages()));
+            
+            var result = await _userService.DeleteAsync(id);
+
+            if (!result.Success)
+            {
+                if (result.InternalServerError)
+                    return StatusCode(StatusCodes.Status500InternalServerError,
+                        new ErrorResource(StatusCodes.Status500InternalServerError, result.Message));
+                return NotFound(new ErrorResource(StatusCodes.Status404NotFound, result.Message));
+            }                
+
+            var userResource = _mapper.Map<User, UserResource>(result.Resource);
+            return Ok(userResource);
+        }
 
         /// <summary>
         ///  Saves a new user.
