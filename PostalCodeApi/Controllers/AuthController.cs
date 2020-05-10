@@ -3,6 +3,6 @@
     public class AuthController
     {
         //@Todo auth
-        //@Todo refresh
+        //@Todo store and check token
     }
 }

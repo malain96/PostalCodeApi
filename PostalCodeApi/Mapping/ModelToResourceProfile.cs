@@ -17,6 +17,8 @@ namespace PostalCodeApi.Mapping
                 opt => opt.MapFrom(src => src.PostalCodeCities.Select(pcc => pcc.City)));
 
             CreateMap<PagedAndSortedList<PostalCode>, PagedAndSortedResponseResource<PostalCodeResource>>();
+            
+            CreateMap<PagedAndSortedList<User>, PagedAndSortedResponseResource<UserResource>>();
 
             CreateMap<User, UserResource>();
         }
