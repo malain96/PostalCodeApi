@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PostalCodeApi.Persistence.Contexts;
 
 namespace PostalCodeApi.Migrations
 {
     [DbContext(typeof(PostalCodeDbContext))]
-    partial class PostalCodeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200512200750_AddUserToken")]
+    partial class AddUserToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

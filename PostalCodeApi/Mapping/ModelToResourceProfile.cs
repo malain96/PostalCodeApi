@@ -11,16 +11,13 @@ namespace PostalCodeApi.Mapping
         public ModelToResourceProfile()
         {
             CreateMap<City, CityResource>();
-
             CreateMap<PostalCode, PostalCodeResource>().ForMember(
                 dest => dest.Cities,
                 opt => opt.MapFrom(src => src.PostalCodeCities.Select(pcc => pcc.City)));
-
             CreateMap<PagedAndSortedList<PostalCode>, PagedAndSortedResponseResource<PostalCodeResource>>();
-            
             CreateMap<PagedAndSortedList<User>, PagedAndSortedResponseResource<UserResource>>();
-
             CreateMap<User, UserResource>();
+            CreateMap<User, AuthResource>();
         }
     }
 }

@@ -41,13 +41,36 @@ namespace PostalCodeApi.Services
         public async Task<UserResponse> UpdateIsAdminAsync(int id, bool isAdmin)
         {
             var existingUser = await _userRepository.FindByIdAsync(id);
-            
-            if(existingUser == null)
+
+            if (existingUser == null)
                 return new UserResponse($"An error occurred when updating the user: user not found", false);
+
+            existingUser.IsAdmin = isAdmin;
             
             try
             {
-                existingUser.IsAdmin = isAdmin;
+                _userRepository.Update(existingUser);
+                await _unitOfWork.CompleteAsync();
+
+                return new UserResponse(existingUser);
+            }
+            catch (Exception ex)
+            {
+                return new UserResponse($"An error occurred when updating the user: {ex.Message}");
+            }
+        }
+
+        public async Task<UserResponse> UpdateTokenAsync(int id, string token)
+        {
+            var existingUser = await _userRepository.FindByIdAsync(id);
+
+            if (existingUser == null)
+                return new UserResponse($"An error occurred when updating the user: user not found", false);
+
+            existingUser.Token = token;
+            
+            try
+            {
                 _userRepository.Update(existingUser);
                 await _unitOfWork.CompleteAsync();
 
@@ -93,10 +116,10 @@ namespace PostalCodeApi.Services
         public async Task<UserResponse> DeleteAsync(int id)
         {
             var existingUser = await _userRepository.FindByIdAsync(id);
-            
-            if(existingUser == null)
+
+            if (existingUser == null)
                 return new UserResponse($"An error occurred when deleting the user: user not found", false);
-            
+
             try
             {
                 _userRepository.Remove(existingUser);
@@ -110,8 +133,33 @@ namespace PostalCodeApi.Services
             }
         }
 
-        // private helper methods
+        public async Task<UserResponse> AuthenticateAsync(string username, string password)
+        {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                return new UserResponse($"An error occurred when authenticating the user: user or password is empty",
+                    false);
 
+            var user = await _userRepository.FindByUsernameAsync(username);
+
+            if (user == null)
+                return new UserResponse(
+                    $"An error occurred when authenticating the user: username or password is incorrect",
+                    false);
+            try
+            {
+                return !VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt)
+                    ? new UserResponse($"An error occurred when authenticating the user: username or password is incorrect",
+                        false)
+                    : new UserResponse(user);
+            }
+            catch (Exception ex)
+            {
+                return new UserResponse($"An error occurred when authenticating the user: {ex.Message}");
+            }
+            
+        }
+
+        // private helper methods
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             if (password == null) throw new ArgumentNullException(nameof(password));

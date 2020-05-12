@@ -17,6 +17,7 @@ namespace PostalCodeApi
 {
     public class Startup
     {
+        //@todo add Authorize and role 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
