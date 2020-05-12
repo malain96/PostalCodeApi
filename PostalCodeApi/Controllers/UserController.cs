@@ -78,17 +78,17 @@ namespace PostalCodeApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(new ErrorResource(StatusCodes.Status400BadRequest, ModelState.GetErrorMessages()));
 
-            var result = await _userService.UpdateIsAdminAsync(id, resource.IsAdmin);
+            var response = await _userService.UpdateIsAdminAsync(id, resource.IsAdmin);
 
-            if (!result.Success)
+            if (!response.Success)
             {
-                if (result.InternalServerError)
+                if (response.InternalServerError)
                     return StatusCode(StatusCodes.Status500InternalServerError,
-                        new ErrorResource(StatusCodes.Status500InternalServerError, result.Message));
-                return NotFound(new ErrorResource(StatusCodes.Status404NotFound, result.Message));
+                        new ErrorResource(StatusCodes.Status500InternalServerError, response.Message));
+                return NotFound(new ErrorResource(StatusCodes.Status404NotFound, response.Message));
             }
 
-            var userResource = _mapper.Map<User, UserResource>(result.Resource);
+            var userResource = _mapper.Map<User, UserResource>(response.Resource);
             return Ok(userResource);
         }
 
@@ -106,17 +106,17 @@ namespace PostalCodeApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(new ErrorResource(StatusCodes.Status400BadRequest, ModelState.GetErrorMessages()));
 
-            var result = await _userService.DeleteAsync(id);
+            var response = await _userService.DeleteAsync(id);
 
-            if (!result.Success)
+            if (!response.Success)
             {
-                if (result.InternalServerError)
+                if (response.InternalServerError)
                     return StatusCode(StatusCodes.Status500InternalServerError,
-                        new ErrorResource(StatusCodes.Status500InternalServerError, result.Message));
-                return NotFound(new ErrorResource(StatusCodes.Status404NotFound, result.Message));
+                        new ErrorResource(StatusCodes.Status500InternalServerError, response.Message));
+                return NotFound(new ErrorResource(StatusCodes.Status404NotFound, response.Message));
             }
 
-            var userResource = _mapper.Map<User, UserResource>(result.Resource);
+            var userResource = _mapper.Map<User, UserResource>(response.Resource);
             return Ok(userResource);
         }
 
@@ -135,17 +135,17 @@ namespace PostalCodeApi.Controllers
                 return BadRequest(new ErrorResource(StatusCodes.Status400BadRequest, ModelState.GetErrorMessages()));
 
             var user = _mapper.Map<SaveUserResource, User>(resource);
-            var result = await _userService.SaveAsync(user, resource.Password);
+            var response = await _userService.SaveAsync(user, resource.Password);
 
-            if (!result.Success)
+            if (!response.Success)
             {
-                if (result.InternalServerError)
+                if (response.InternalServerError)
                     return StatusCode(StatusCodes.Status500InternalServerError,
-                        new ErrorResource(StatusCodes.Status500InternalServerError, result.Message));
-                return BadRequest(new ErrorResource(StatusCodes.Status400BadRequest, result.Message));
+                        new ErrorResource(StatusCodes.Status500InternalServerError, response.Message));
+                return BadRequest(new ErrorResource(StatusCodes.Status400BadRequest, response.Message));
             }
 
-            var userResource = _mapper.Map<User, UserResource>(result.Resource);
+            var userResource = _mapper.Map<User, UserResource>(response.Resource);
             return StatusCode(StatusCodes.Status201Created, userResource);
         }
     }
