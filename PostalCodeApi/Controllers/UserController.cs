@@ -35,7 +35,7 @@ namespace PostalCodeApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(new ErrorResource(StatusCodes.Status400BadRequest, ModelState.GetErrorMessages()));
-            
+
             var user = await _userService.GetByIdAsync(id);
 
             var userResource = _mapper.Map<User, UserResource>(user);
@@ -60,14 +60,38 @@ namespace PostalCodeApi.Controllers
                 pagedAndSortedRequest.Sort);
 
             var resources =
-                _mapper.Map<PagedAndSortedList<User>, PagedAndSortedResponseResource<UserResource>>(pagedAndSortedUsers);
+                _mapper.Map<PagedAndSortedList<User>, PagedAndSortedResponseResource<UserResource>>(
+                    pagedAndSortedUsers);
 
             return Ok(resources);
         }
 
         //@Todo update password
-        //@Todo update isAdmin
         
+        [HttpPatch("{id}")]
+        [ProducesResponseType(typeof(UserResource), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateIsAdminAsync([FromRoute] int id, [FromBody] UpdateIsAdminResource resource)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new ErrorResource(StatusCodes.Status400BadRequest, ModelState.GetErrorMessages()));
+
+            var result = await _userService.UpdateIsAdminAsync(id, resource.IsAdmin);
+
+            if (!result.Success)
+            {
+                if (result.InternalServerError)
+                    return StatusCode(StatusCodes.Status500InternalServerError,
+                        new ErrorResource(StatusCodes.Status500InternalServerError, result.Message));
+                return NotFound(new ErrorResource(StatusCodes.Status404NotFound, result.Message));
+            }
+
+            var userResource = _mapper.Map<User, UserResource>(result.Resource);
+            return Ok(userResource);
+        }
+
         /// <summary>
         ///  Delete a user by id.
         /// </summary>
@@ -81,7 +105,7 @@ namespace PostalCodeApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(new ErrorResource(StatusCodes.Status400BadRequest, ModelState.GetErrorMessages()));
-            
+
             var result = await _userService.DeleteAsync(id);
 
             if (!result.Success)
@@ -90,7 +114,7 @@ namespace PostalCodeApi.Controllers
                     return StatusCode(StatusCodes.Status500InternalServerError,
                         new ErrorResource(StatusCodes.Status500InternalServerError, result.Message));
                 return NotFound(new ErrorResource(StatusCodes.Status404NotFound, result.Message));
-            }                
+            }
 
             var userResource = _mapper.Map<User, UserResource>(result.Resource);
             return Ok(userResource);
