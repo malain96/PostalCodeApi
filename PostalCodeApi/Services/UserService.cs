@@ -8,6 +8,7 @@ using PostalCodeApi.Domain.Models;
 using PostalCodeApi.Domain.Repositories;
 using PostalCodeApi.Domain.Services;
 using PostalCodeApi.Domain.Services.Communication;
+using PostalCodeApi.Entities;
 using PostalCodeApi.Extensions;
 
 namespace PostalCodeApi.Services
@@ -38,36 +39,14 @@ namespace PostalCodeApi.Services
             throw new NotImplementedException();
         }
 
-        public async Task<UserResponse> UpdateIsAdminAsync(int id, bool isAdmin)
+        public async Task<UserResponse> UpdateRoleAsync(int id, string role)
         {
             var existingUser = await _userRepository.FindByIdAsync(id);
 
             if (existingUser == null)
                 return new UserResponse($"An error occurred when updating the user: user not found", false);
-
-            existingUser.IsAdmin = isAdmin;
             
-            try
-            {
-                _userRepository.Update(existingUser);
-                await _unitOfWork.CompleteAsync();
-
-                return new UserResponse(existingUser);
-            }
-            catch (Exception ex)
-            {
-                return new UserResponse($"An error occurred when updating the user: {ex.Message}");
-            }
-        }
-
-        public async Task<UserResponse> UpdateTokenAsync(int id, string token)
-        {
-            var existingUser = await _userRepository.FindByIdAsync(id);
-
-            if (existingUser == null)
-                return new UserResponse($"An error occurred when updating the user: user not found", false);
-
-            existingUser.Token = token;
+            existingUser.Role = role == Role.Admin ? Role.Admin : Role.User;
             
             try
             {

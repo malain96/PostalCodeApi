@@ -1,13 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Text;
+using Microsoft.EntityFrameworkCore;
 using PostalCodeApi.Domain.Models;
+using PostalCodeApi.Domain.Repositories;
+using PostalCodeApi.Domain.Services;
+using PostalCodeApi.Entities;
 
 namespace PostalCodeApi.Persistence.Contexts
 {
     public class PostalCodeDbContext
         : DbContext
     {
-        public PostalCodeDbContext(DbContextOptions<PostalCodeDbContext> options) : base(options)
+        public PostalCodeDbContext(DbContextOptions<PostalCodeDbContext> options) :
+            base(options)
         {
+            
         }
 
         // Define all tables
@@ -36,6 +42,8 @@ namespace PostalCodeApi.Persistence.Contexts
                 .HasOne(pcc => pcc.City)
                 .WithMany(c => c.PostalCodeCities)
                 .HasForeignKey(pcc => pcc.CityId);
+
+            //@Todo Seed with user and admin
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PostalCodeApi.Domain.Services;
+using PostalCodeApi.Entities;
 using PostalCodeApi.Extensions;
 using PostalCodeApi.Resources;
 
@@ -10,6 +12,7 @@ namespace PostalCodeApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = Role.Admin)]
     public class GeoNamesController : ControllerBase
     {
         private readonly IGeoNamesService _geoNamesService;

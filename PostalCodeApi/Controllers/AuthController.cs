@@ -29,11 +29,11 @@ namespace PostalCodeApi.Controllers
             _userService = userService;
             _mapper = mapper;
         }
-
-        //@Todo auth
-        //@Todo store and check token on every api call with middleware 
-        [AllowAnonymous]
+        
         [HttpPost]
+        [ProducesResponseType(typeof(AuthResource), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Authenticate([FromBody] AuthInputResource resource)
         {
             var response = await _userService.AuthenticateAsync(resource.Username, resource.Password);
@@ -47,20 +47,21 @@ namespace PostalCodeApi.Controllers
             }
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("Secret"));
+            var key = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("Jwt:Key"));
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(ClaimTypes.Name, response.Resource.Id.ToString())
+                    new Claim(ClaimTypes.Name, response.Resource.Id.ToString()),
+                    new Claim(ClaimTypes.Role, response.Resource.Role)
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256Signature)
+                    SecurityAlgorithms.HmacSha256Signature),
+                Issuer = _configuration.GetValue<string>("Jwt:Issuer")
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
-            response = await _userService.UpdateTokenAsync(response.Resource.Id, tokenString);
 
             var authResource = _mapper.Map<User, AuthResource>(
                 response.Resource);

@@ -1,9 +1,11 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PostalCodeApi.Domain.Models;
 using PostalCodeApi.Domain.Services;
+using PostalCodeApi.Entities;
 using PostalCodeApi.Extensions;
 using PostalCodeApi.Resources;
 
@@ -11,6 +13,7 @@ namespace PostalCodeApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = Role.Admin)]
     public class UserController : Controller
     {
         private readonly IMapper _mapper;
@@ -66,6 +69,7 @@ namespace PostalCodeApi.Controllers
             return Ok(resources);
         }
 
+        //[Authorize]
         //@Todo update password
         
         [HttpPatch("{id}")]
@@ -73,12 +77,12 @@ namespace PostalCodeApi.Controllers
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> UpdateIsAdminAsync([FromRoute] int id, [FromBody] UpdateIsAdminResource resource)
+        public async Task<IActionResult> UpdateRoleAsync([FromRoute] int id, [FromBody] UpdateRoleResource resource)
         {
             if (!ModelState.IsValid)
                 return BadRequest(new ErrorResource(StatusCodes.Status400BadRequest, ModelState.GetErrorMessages()));
 
-            var response = await _userService.UpdateIsAdminAsync(id, resource.IsAdmin);
+            var response = await _userService.UpdateRoleAsync(id, resource.Role);
 
             if (!response.Success)
             {

@@ -8,7 +8,9 @@ namespace PostalCodeApi.Resources
         [Required] 
         public string Username { get; set; }
         
-        public bool IsAdmin { get; set; } = false;
+        [RegularExpression("Admin|User",
+            ErrorMessage = "The role can either be Admin or User")]
+        public string Role { get; set; } = Entities.Role.User;
 
         [Required]
         [MinLength(8)]
