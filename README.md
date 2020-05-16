@@ -4,8 +4,7 @@
 
   * [Description](#description)
   * [Pre-requisites](#pre-requisites)
-  * [Installing](#installing)
-  * [Running](#running)
+  * [Getting started](#getting-started)
   * [License](#license)
 
 
@@ -27,7 +26,6 @@ By default, two users are created:
 ## Pre-requisites
 
 * [ASP.NET Core 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1)
-
 
 ## Getting started
 
