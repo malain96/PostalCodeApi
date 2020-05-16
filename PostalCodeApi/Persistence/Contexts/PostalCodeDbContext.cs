@@ -1,19 +1,18 @@
-﻿using System.Text;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PostalCodeApi.Domain.Models;
-using PostalCodeApi.Domain.Repositories;
-using PostalCodeApi.Domain.Services;
 using PostalCodeApi.Entities;
+using PostalCodeApi.Helpers;
 
 namespace PostalCodeApi.Persistence.Contexts
 {
     public class PostalCodeDbContext
         : DbContext
     {
+        private const string DefaultPassword = "1234Aze@";
+
         public PostalCodeDbContext(DbContextOptions<PostalCodeDbContext> options) :
             base(options)
         {
-            
         }
 
         // Define all tables
@@ -43,7 +42,26 @@ namespace PostalCodeApi.Persistence.Contexts
                 .WithMany(c => c.PostalCodeCities)
                 .HasForeignKey(pcc => pcc.CityId);
 
-            //@Todo Seed with user and admin
+            PasswordHelper.CreatePasswordHash(DefaultPassword, out var passwordHash, out var passwordSalt);
+
+            modelBuilder.Entity<User>().HasData(
+                new User
+                {
+                    Id = 1,
+                    Username = "admin",
+                    Role = Role.Admin,
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSalt
+                },
+                new User
+                {
+                    Id = 2,
+                    Username = "user",
+                    Role = Role.User,
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSalt
+                }
+            );
         }
     }
 }

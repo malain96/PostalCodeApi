@@ -7,36 +7,36 @@ namespace PostalCodeApi.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "IsAdmin",
-                table: "Users");
+                "IsAdmin",
+                "Users");
 
             migrationBuilder.DropColumn(
-                name: "Token",
-                table: "Users");
+                "Token",
+                "Users");
 
             migrationBuilder.AddColumn<string>(
-                name: "Role",
-                table: "Users",
+                "Role",
+                "Users",
                 nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Role",
-                table: "Users");
+                "Role",
+                "Users");
 
             migrationBuilder.AddColumn<bool>(
-                name: "IsAdmin",
-                table: "Users",
-                type: "bit",
+                "IsAdmin",
+                "Users",
+                "bit",
                 nullable: false,
                 defaultValue: false);
 
             migrationBuilder.AddColumn<string>(
-                name: "Token",
-                table: "Users",
-                type: "nvarchar(max)",
+                "Token",
+                "Users",
+                "nvarchar(max)",
                 nullable: true);
         }
     }

@@ -1,4 +1,5 @@
-﻿using PostalCodeApi.Domain.Models;
+﻿using Microsoft.AspNetCore.Http;
+using PostalCodeApi.Domain.Models;
 
 namespace PostalCodeApi.Domain.Services.Communication
 {
@@ -8,8 +9,10 @@ namespace PostalCodeApi.Domain.Services.Communication
         ///     Creates a success response.
         /// </summary>
         /// <param name="user">The user</param>
+        /// <param name="statusCode">Success status code</param>
         /// <returns>Response.</returns>
-        public UserResponse(User user) : base(user)
+        public UserResponse(User user, int statusCode = StatusCodes.Status200OK) : base(
+            user, statusCode)
         {
         }
 
@@ -17,9 +20,11 @@ namespace PostalCodeApi.Domain.Services.Communication
         ///     Creates am error response.
         /// </summary>
         /// <param name="message">Error message.</param>
-        /// <param name="internalServerError">Define if the error is related to the server.</param>
+        /// <param name="statusCode">Error status code.</param>
         /// <returns>Response.</returns>
-        public UserResponse(string message, bool internalServerError = true) : base(message, internalServerError)
+        public UserResponse(string message, int statusCode = StatusCodes.Status500InternalServerError) : base(
+            message,
+            statusCode)
         {
         }
     }

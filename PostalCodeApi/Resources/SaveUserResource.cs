@@ -5,9 +5,8 @@ namespace PostalCodeApi.Resources
 {
     public class SaveUserResource
     {
-        [Required] 
-        public string Username { get; set; }
-        
+        [Required] public string Username { get; set; }
+
         [RegularExpression("Admin|User",
             ErrorMessage = "The role can either be Admin or User")]
         public string Role { get; set; } = Entities.Role.User;

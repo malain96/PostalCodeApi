@@ -7,12 +7,12 @@ namespace PostalCodeApi.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Role",
-                table: "Users");
+                "Role",
+                "Users");
 
             migrationBuilder.AddColumn<bool>(
-                name: "IsAdmin",
-                table: "Users",
+                "IsAdmin",
+                "Users",
                 nullable: false,
                 defaultValue: false);
         }
@@ -20,13 +20,13 @@ namespace PostalCodeApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "IsAdmin",
-                table: "Users");
+                "IsAdmin",
+                "Users");
 
             migrationBuilder.AddColumn<string>(
-                name: "Role",
-                table: "Users",
-                type: "nvarchar(max)",
+                "Role",
+                "Users",
+                "nvarchar(max)",
                 nullable: true);
         }
     }

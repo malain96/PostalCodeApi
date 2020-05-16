@@ -24,9 +24,16 @@ namespace PostalCodeApi.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get a filtered, paginated and sorted list of Postal codes and their cities
+        /// </summary>
+        /// <param name="pagedAndSortedRequest">Pagination and sorting data</param>
+        /// <param name="inputResource">Search and country Iso</param>
+        /// <returns>Response for the request</returns>
         [HttpGet]
         [ProducesResponseType(typeof(PagedAndSortedResponseResource<PostalCodeResource>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Search(
             [FromQuery] PagedAndSortedRequestResource pagedAndSortedRequest,
             [FromQuery] SearchPostalCodeResource inputResource)

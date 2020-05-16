@@ -2,24 +2,24 @@
 {
     public abstract class BaseResponse<T>
     {
-        protected BaseResponse(T resource)
+        protected BaseResponse(T resource, int statusCode)
         {
             Success = true;
-            InternalServerError = false;
+            StatusCode = statusCode;
             Message = string.Empty;
             Resource = resource;
         }
 
-        protected BaseResponse(string message, bool internalServerError)
+        protected BaseResponse(string message, int statusCode)
         {
             Success = false;
-            InternalServerError = internalServerError;
+            StatusCode = statusCode;
             Message = message;
             Resource = default;
         }
 
         public bool Success { get; }
-        public bool InternalServerError { get; }
+        public int StatusCode { get; }
         public string Message { get; }
         public T Resource { get; }
     }

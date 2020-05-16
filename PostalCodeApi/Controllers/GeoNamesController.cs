@@ -22,10 +22,17 @@ namespace PostalCodeApi.Controllers
             _geoNamesService = geoNamesService;
         }
 
+        /// <summary>
+        /// Import all the postal codes of a country from Geonames.org
+        /// </summary>
+        /// <param name="resource">Iso of the country to import</param>
+        /// <returns>Response for the request</returns>
         [Route("import")]
         [HttpGet]
         [ProducesResponseType(typeof(IActionResult), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Import([FromQuery] ImportGeoNamesResource resource)
         {

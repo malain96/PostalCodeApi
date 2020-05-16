@@ -7,16 +7,16 @@ namespace PostalCodeApi.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Token",
-                table: "Users",
+                "Token",
+                "Users",
                 nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Token",
-                table: "Users");
+                "Token",
+                "Users");
         }
     }
 }
