@@ -10,12 +10,13 @@
 
 ## Description
 
-This project is a web API to perform postal code and city related tasks. It is developed using C# and .NET core 3.1. This version includes the following features:
+This project is a web API to perform postal code and city related tasks (search and import). It is developed using C# and .NET core 3.1. This version includes the following features:
 * User Management (auth, roles, crud)
 * Importing from [GeoNames](https://www.geonames.org/)
 * Searching for a postal code
 * Getting cities related to a postal code
 * Swagger documentation
+* Logging using [Nlog](https://nlog-project.org/)
 
 All the data is retrieved from [GeoNames](https://www.geonames.org/).
 
