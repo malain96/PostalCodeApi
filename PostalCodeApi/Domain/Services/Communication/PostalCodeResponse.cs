@@ -6,23 +6,22 @@ namespace PostalCodeApi.Domain.Services.Communication
     public class PostalCodeResponse : BaseResponse<PostalCode>
     {
         /// <summary>
-        ///     Creates a success response.
+        /// Creates a success response
         /// </summary>
-        /// <param name="postalCode">Saved postal code.</param>
-        /// /
+        /// <param name="postalCode">Saved postal code</param>
         /// <param name="statusCode">Success status code</param>
-        /// <returns>Response.</returns>
+        /// <returns>Response</returns>
         public PostalCodeResponse(PostalCode postalCode, int statusCode = StatusCodes.Status200OK) : base(
             postalCode, statusCode)
         {
         }
 
         /// <summary>
-        ///     Creates am error response.
+        ///  Creates an error response
         /// </summary>
-        /// <param name="message">Error message.</param>
-        /// <param name="statusCode">Error status code.</param>
-        /// <returns>Response.</returns>
+        /// <param name="message">Error message</param>
+        /// <param name="statusCode">Error status code</param>
+        /// <returns>Response</returns>
         public PostalCodeResponse(string message, int statusCode = StatusCodes.Status500InternalServerError) : base(
             message,
             statusCode)

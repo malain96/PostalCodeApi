@@ -2,6 +2,9 @@
 
 namespace PostalCodeApi.Resources
 {
+    /// <summary>
+    /// Country iso for the GeoNames import
+    /// </summary>
     public class ImportGeoNamesResource
     {
         [Required]

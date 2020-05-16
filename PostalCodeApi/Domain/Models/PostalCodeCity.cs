@@ -1,5 +1,8 @@
 ﻿namespace PostalCodeApi.Domain.Models
 {
+    /// <summary>
+    /// Database PostalCodeCity model 
+    /// </summary>
     public class PostalCodeCity
     {
         public long PostalCodeId { get; set; }

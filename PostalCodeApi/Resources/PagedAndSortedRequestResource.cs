@@ -1,5 +1,8 @@
 ﻿namespace PostalCodeApi.Resources
 {
+    /// <summary>
+    /// Input for requests that needs pagination and sorting
+    /// </summary>
     public class PagedAndSortedRequestResource
     {
         private const int MaxPageSize = 50;

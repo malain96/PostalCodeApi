@@ -1,5 +1,8 @@
 ﻿namespace PostalCodeApi.Domain.Models
 {
+    /// <summary>
+    /// Database User model
+    /// </summary>
     public class User
     {
         public int Id { get; set; }

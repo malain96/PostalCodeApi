@@ -5,6 +5,9 @@ using PostalCodeApi.Helpers;
 
 namespace PostalCodeApi.Persistence.Contexts
 {
+    /// <summary>
+    /// DBContext of the postal code database
+    /// </summary>
     public class PostalCodeDbContext
         : DbContext
     {

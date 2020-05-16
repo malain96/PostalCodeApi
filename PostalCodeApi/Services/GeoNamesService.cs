@@ -27,6 +27,7 @@ namespace PostalCodeApi.Services
 
         public async Task ImportAsync(string countryIso)
         {
+            // Convert the country iso to uppercase
             var upperCountryIso = countryIso.ToUpperInvariant();
             // Folder where downloaded files are stored
             var downloadsFolder = _configuration.GetValue<string>("ImportOptions:DownloadsFolder");
@@ -56,22 +57,24 @@ namespace PostalCodeApi.Services
                 ZipFile.ExtractToDirectory(downloadedFile, downloadsFolder);
 
                 // Read the file line by line
-                foreach (var line in File.ReadAllLines(extractedFile, Encoding.UTF8))
+                foreach (var line in await File.ReadAllLinesAsync(extractedFile, Encoding.UTF8))
                 {
                     var fields = line.Split("\t");
-
-
+                    
+                    // Get or add the postal code
                     var postalCode = await _postalCodeService.FindMatchOrSaveAsync(new PostalCode
                     {
                         Code = fields[1],
                         CountryIso = fields[0]
                     });
 
+                    // Get or add the city
                     var city = await _cityService.FindMatchOrSaveAsync(new City
                     {
                         Name = fields[2]
                     });
 
+                    // Get or add the link between the city and postal code
                     await _postalCodeCityService.FindMatchOrSaveAsync(new PostalCodeCity
                     {
                         CityId = city.Resource.Id,

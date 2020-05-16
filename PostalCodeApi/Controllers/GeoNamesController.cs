@@ -31,8 +31,8 @@ namespace PostalCodeApi.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IActionResult), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ErrorResource),StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ErrorResource),StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Import([FromQuery] ImportGeoNamesResource resource)
         {

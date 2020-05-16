@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PostalCodeApi.Resources
 {
+    /// <summary>
+    /// Input to create a user
+    /// </summary>
     public class SaveUserResource
     {
         [Required] public string Username { get; set; }

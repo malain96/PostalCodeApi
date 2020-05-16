@@ -26,7 +26,7 @@ namespace PostalCodeApi.Persistence.Repositories
         }
 
         
-        public async Task<List<City>> ListByPostalCodeCityAsync(List<PostalCodeCity> postalCodeCities)
+        public async Task<List<City>> ListByPostalCodeCityAsync(IEnumerable<PostalCodeCity> postalCodeCities)
         {
             return await _context.Cities.Where(c => postalCodeCities.Select(pcc => pcc.CityId).Contains(c.Id)).ToListAsync();
         }

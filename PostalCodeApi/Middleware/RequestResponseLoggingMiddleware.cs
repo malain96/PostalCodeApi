@@ -5,6 +5,9 @@ using Microsoft.Extensions.Logging;
 
 namespace PostalCodeApi.Middleware
 {
+    /// <summary>
+    /// Log API calls and responses
+    /// </summary>
     public class RequestResponseLoggingMiddleware
     {
         private readonly RequestDelegate _next;
@@ -32,6 +35,7 @@ namespace PostalCodeApi.Middleware
         /// <returns>Task</returns>
         private void LogRequest(HttpContext context)
         {
+            // Get the user's name
             var username = "Anonymous user";
             if (context.User.Identity is ClaimsIdentity identity)
             {
@@ -40,8 +44,10 @@ namespace PostalCodeApi.Middleware
                     username = claim.Value;
             }
 
+            // Create the log string
             var logString = $"Called {context.Request.Method} {context.Request.Path} by {username}";
 
+            // Log the call
             _logger.LogInformation(logString);
         }
 
@@ -51,6 +57,7 @@ namespace PostalCodeApi.Middleware
         /// <param name="context">The request</param>
         private void LogResponse(HttpContext context)
         {
+            // Get the user's name
             var username = "Anonymous user";
             if (context.User.Identity is ClaimsIdentity identity)
             {
@@ -59,9 +66,11 @@ namespace PostalCodeApi.Middleware
                     username = claim.Value;
             }
 
+            // Create the log string
             var logString =
                 $"Response Status {context.Response.StatusCode} for {context.Request.Method} {context.Request.Path} by {username}";
 
+            // Log the response
             _logger.LogInformation(logString);
         }
     }

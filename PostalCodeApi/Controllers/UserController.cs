@@ -34,9 +34,8 @@ namespace PostalCodeApi.Controllers
         [Authorize(Roles = Role.Admin)]
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(UserResource), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ErrorResource),StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ErrorResource),StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetAsync(int id)
         {
@@ -57,8 +56,8 @@ namespace PostalCodeApi.Controllers
         [Authorize(Roles = Role.Admin)]
         [HttpGet]
         [ProducesResponseType(typeof(PagedAndSortedResponseResource<UserResource>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ErrorResource),StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ErrorResource),StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> ListAllAsync([FromQuery] PagedAndSortedRequestResource pagedAndSortedRequest)
         {
@@ -77,7 +76,7 @@ namespace PostalCodeApi.Controllers
         }
 
         /// <summary>
-        /// Update the password of a user
+        /// Update the password of the given user
         /// </summary>
         /// <param name="resource">Old and new password</param>
         /// <returns>Response for the request</returns>
@@ -85,7 +84,7 @@ namespace PostalCodeApi.Controllers
         [HttpPatch]
         [ProducesResponseType(typeof(UserResource), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ErrorResource),StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdatePasswordAsync([FromBody] UpdatePasswordResource resource)
@@ -108,7 +107,7 @@ namespace PostalCodeApi.Controllers
         }
 
         /// <summary>
-        /// Update the role of a user
+        /// Update the role of the given user
         /// </summary>
         /// <param name="id">User's id</param>
         /// <param name="resource">The new role</param>
@@ -117,8 +116,8 @@ namespace PostalCodeApi.Controllers
         [HttpPatch("{id}")]
         [ProducesResponseType(typeof(UserResource), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ErrorResource),StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ErrorResource),StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateRoleAsync([FromRoute] int id, [FromBody] UpdateRoleResource resource)
@@ -145,8 +144,8 @@ namespace PostalCodeApi.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(UserResource), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ErrorResource),StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ErrorResource),StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteAsync(int id)
@@ -173,8 +172,8 @@ namespace PostalCodeApi.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(UserResource), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ErrorResource),StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ErrorResource),StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> PostAsync([FromBody] SaveUserResource resource)
         {

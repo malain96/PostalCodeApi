@@ -2,6 +2,9 @@
 
 namespace PostalCodeApi.Resources
 {
+    /// <summary>
+    /// Input for updating a user's role
+    /// </summary>
     public class UpdateRoleResource
     {
         [Required]

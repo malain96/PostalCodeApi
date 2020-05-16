@@ -6,6 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PostalCodeApi.Extensions
 {
+    /// <summary>
+    /// Provides a paged and sorted list of T
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class PagedAndSortedList<T> : List<T>
     {
         public PagedAndSortedList(List<T> items, int count, int pageNumber, int pageSize, string sorted,

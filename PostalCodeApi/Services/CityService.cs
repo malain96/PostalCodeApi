@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using PostalCodeApi.Domain.Models;
 using PostalCodeApi.Domain.Repositories;
 using PostalCodeApi.Domain.Services;
@@ -23,17 +20,17 @@ namespace PostalCodeApi.Services
             _postalCodeCityService = postalCodeCityService;
             _unitOfWork = unitOfWork;
         }
-
-
+        
         public async Task<CityResponse> FindMatchOrSaveAsync(City city)
         {
+            // Try to retrieve the existing city and to return it
             var existingCity = await _cityRepository.FindMatchAsync(city);
-
             if (existingCity != null)
                 return new CityResponse(existingCity);
 
             try
             {
+                // Try to add the new city
                 await _cityRepository.AddAsync(city);
                 await _unitOfWork.CompleteAsync();
 

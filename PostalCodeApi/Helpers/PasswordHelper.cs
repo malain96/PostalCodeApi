@@ -7,6 +7,14 @@ namespace PostalCodeApi.Helpers
 {
     public static class PasswordHelper
     {
+        /// <summary>
+        /// Create the password hash and salt from a password
+        /// </summary>
+        /// <param name="password">Given password</param>
+        /// <param name="passwordHash">Generated hash</param>
+        /// <param name="passwordSalt">Generated salt</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             if (password == null) throw new ArgumentNullException(nameof(password));
@@ -18,6 +26,15 @@ namespace PostalCodeApi.Helpers
             passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
         }
 
+        /// <summary>
+        /// Verify a password against a salt and hash
+        /// </summary>
+        /// <param name="password">Password</param>
+        /// <param name="storedHash">Stored password salt</param>
+        /// <param name="storedSalt">Stored password hash</param>
+        /// <returns>If the password match or not</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
         {
             if (password == null) throw new ArgumentNullException(nameof(password));

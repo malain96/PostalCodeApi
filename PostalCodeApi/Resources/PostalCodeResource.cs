@@ -2,6 +2,9 @@
 
 namespace PostalCodeApi.Resources
 {
+    /// <summary>
+    /// PostalCode with a list of CityResource
+    /// </summary>
     public class PostalCodeResource
     {
         public long Id { get; set; }

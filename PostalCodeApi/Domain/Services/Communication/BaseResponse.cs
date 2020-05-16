@@ -2,6 +2,12 @@
 {
     public abstract class BaseResponse<T>
     {
+
+        /// <summary>
+        /// Creates a success response
+        /// </summary>
+        /// <param name="resource">Object of type T</param>
+        /// <param name="statusCode">Success status code</param>
         protected BaseResponse(T resource, int statusCode)
         {
             Success = true;
@@ -10,6 +16,11 @@
             Resource = resource;
         }
 
+        /// <summary>
+        /// Creates an error response
+        /// </summary>
+        /// <param name="message">Error message</param>
+        /// <param name="statusCode">Error status code</param>
         protected BaseResponse(string message, int statusCode)
         {
             Success = false;

@@ -2,6 +2,10 @@
 
 namespace PostalCodeApi.Resources
 {
+    /// <summary>
+    /// Reponse for requests that needs pagination and sorting
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class PagedAndSortedResponseResource<T>
     {
         public List<T> Items { get; set; }

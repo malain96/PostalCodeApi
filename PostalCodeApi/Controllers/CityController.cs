@@ -29,7 +29,7 @@ namespace PostalCodeApi.Controllers
 
 
         /// <summary>
-        /// Get all cities for a postal code
+        /// Get all cities for the given postal code
         /// </summary>
         /// <param name="resource">Search and country Iso</param>
         /// <returns>Response for the request</returns>
@@ -37,7 +37,7 @@ namespace PostalCodeApi.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(List<CityResource>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ErrorResource),StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetByPostalCodeAsync([FromQuery] GetByPostalCodeResource resource)
         {

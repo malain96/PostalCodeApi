@@ -7,6 +7,9 @@ using PostalCodeApi.Resources;
 
 namespace PostalCodeApi.Mapping
 {
+    /// <summary>
+    /// Mapper config from resource to model
+    /// </summary>
     public class ModelToResourceProfile : Profile
     {
         public ModelToResourceProfile()

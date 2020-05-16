@@ -2,6 +2,9 @@
 
 namespace PostalCodeApi.Resources
 {
+    /// <summary>
+    /// Input for searching a postal code
+    /// </summary>
     public class SearchPostalCodeResource
     {
         [Required] public string Code { get; set; }

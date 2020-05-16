@@ -1,5 +1,8 @@
 ﻿namespace PostalCodeApi.Resources
 {
+    /// <summary>
+    /// Basic user
+    /// </summary>
     public class UserResource
     {
         public int Id { get; set; }

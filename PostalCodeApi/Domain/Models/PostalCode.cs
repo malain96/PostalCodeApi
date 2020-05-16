@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PostalCodeApi.Domain.Models
 {
+    /// <summary>
+    /// Database PostalCode model
+    /// </summary>
     public class PostalCode
     {
         public long Id { get; set; }

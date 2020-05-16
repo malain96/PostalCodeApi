@@ -26,16 +26,17 @@ namespace PostalCodeApi.Services
         {
             return await _postalCodeRepository.SearchAsync(pageNumber, pageSize, sort, code, countryIso);
         }
-
+        
         public async Task<PostalCodeResponse> FindMatchOrSaveAsync(PostalCode postalCode)
         {
+            // Try to retrieve the existing postal code and to return it
             var existingPostalCode = await _postalCodeRepository.FindMatchAsync(postalCode);
-
             if (existingPostalCode != null)
                 return new PostalCodeResponse(existingPostalCode);
 
             try
             {
+                // Try to add the postal code
                 await _postalCodeRepository.AddAsync(postalCode);
                 await _unitOfWork.CompleteAsync();
 
