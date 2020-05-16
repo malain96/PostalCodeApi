@@ -44,7 +44,7 @@ namespace PostalCodeApi.Controllers
 
             if (response.Success == false)
                 return StatusCode(response.StatusCode,
-                    new ErrorResource(StatusCodes.Status500InternalServerError, response.Message));
+                    new ErrorResource(response.StatusCode, response.Message));
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("Jwt:Key"));

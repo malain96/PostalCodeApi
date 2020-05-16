@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PostalCodeApi.Domain.Repositories;
 using PostalCodeApi.Domain.Services;
+using PostalCodeApi.Middleware;
 using PostalCodeApi.Persistence.Contexts;
 using PostalCodeApi.Persistence.Repositories;
 using PostalCodeApi.Services;
@@ -124,6 +125,9 @@ namespace PostalCodeApi
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            // Add middleware to every api call
+            app.UseMiddleware<RequestResponseLoggingMiddleware>();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

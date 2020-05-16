@@ -101,7 +101,7 @@ namespace PostalCodeApi.Controllers
 
             if (response.Success == false)
                 return StatusCode(response.StatusCode,
-                    new ErrorResource(StatusCodes.Status500InternalServerError, response.Message));
+                    new ErrorResource(response.StatusCode, response.Message));
 
             var userResource = _mapper.Map<User, UserResource>(response.Resource);
             return Ok(userResource);
@@ -130,7 +130,7 @@ namespace PostalCodeApi.Controllers
 
             if (response.Success == false)
                 return StatusCode(response.StatusCode,
-                    new ErrorResource(StatusCodes.Status500InternalServerError, response.Message));
+                    new ErrorResource(response.StatusCode, response.Message));
 
             var userResource = _mapper.Map<User, UserResource>(response.Resource);
             return Ok(userResource);
@@ -158,7 +158,7 @@ namespace PostalCodeApi.Controllers
 
             if (response.Success == false)
                 return StatusCode(response.StatusCode,
-                    new ErrorResource(StatusCodes.Status500InternalServerError, response.Message));
+                    new ErrorResource(response.StatusCode, response.Message));
 
             var userResource = _mapper.Map<User, UserResource>(response.Resource);
             return Ok(userResource);
@@ -186,7 +186,7 @@ namespace PostalCodeApi.Controllers
 
             if (response.Success == false)
                 return StatusCode(response.StatusCode,
-                    new ErrorResource(StatusCodes.Status500InternalServerError, response.Message));
+                    new ErrorResource(response.StatusCode, response.Message));
 
             var userResource = _mapper.Map<User, UserResource>(response.Resource);
             return StatusCode(response.StatusCode, userResource);
