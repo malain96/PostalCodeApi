@@ -42,7 +42,7 @@ namespace PostalCodeApi.Controllers
         {
             var response = await _userService.AuthenticateAsync(resource.Username, resource.Password);
 
-            if (response.Success == false)
+            if (!response.Success)
                 return StatusCode(response.StatusCode,
                     new ErrorResource(response.StatusCode, response.Message));
 

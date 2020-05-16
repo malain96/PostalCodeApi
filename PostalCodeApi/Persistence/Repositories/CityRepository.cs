@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PostalCodeApi.Domain.Models;
 using PostalCodeApi.Domain.Repositories;
@@ -22,5 +24,12 @@ namespace PostalCodeApi.Persistence.Repositories
         {
             return await _context.Cities.FirstOrDefaultAsync(c => c.Name == city.Name);
         }
+
+        
+        public async Task<List<City>> ListByPostalCodeCityAsync(List<PostalCodeCity> postalCodeCities)
+        {
+            return await _context.Cities.Where(c => postalCodeCities.Select(pcc => pcc.CityId).Contains(c.Id)).ToListAsync();
+        }
+
     }
 }

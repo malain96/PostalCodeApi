@@ -9,6 +9,7 @@ namespace PostalCodeApi.Mapping
         public ResourceToModelProfile()
         {
             CreateMap<SaveUserResource, User>();
+            CreateMap<GetByPostalCodeResource, PostalCode>();
         }
     }
 }

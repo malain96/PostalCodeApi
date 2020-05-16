@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using PostalCodeApi.Domain.Models;
 using PostalCodeApi.Extensions;

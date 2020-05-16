@@ -11,5 +11,7 @@ namespace PostalCodeApi.Domain.Services
             string countryIso);
 
         Task<PostalCodeResponse> FindMatchOrSaveAsync(PostalCode postalCode);
+        
+        Task<PostalCodeResponse> FindMatchOrFail(PostalCode postalCode);
     }
 }

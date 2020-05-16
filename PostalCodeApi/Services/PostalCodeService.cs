@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using PostalCodeApi.Domain.Models;
 using PostalCodeApi.Domain.Repositories;
 using PostalCodeApi.Domain.Services;
@@ -44,6 +45,16 @@ namespace PostalCodeApi.Services
             {
                 return new PostalCodeResponse($"An error occurred when saving the postal code: {ex.Message}");
             }
+        }
+
+        public async Task<PostalCodeResponse> FindMatchOrFail(PostalCode postalCode)
+        {
+            var existingPostalCode = await _postalCodeRepository.FindMatchAsync(postalCode);
+
+            return existingPostalCode != null
+                ? new PostalCodeResponse(existingPostalCode)
+                : new PostalCodeResponse("An error occurred when matching the postal code: postal code not found",
+                    StatusCodes.Status404NotFound);
         }
     }
 }

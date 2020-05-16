@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using PostalCodeApi.Domain.Models;
 
 namespace PostalCodeApi.Domain.Repositories
@@ -8,5 +10,7 @@ namespace PostalCodeApi.Domain.Repositories
         Task AddAsync(PostalCodeCity postalCodeCity);
 
         Task<PostalCodeCity> FindMatchAsync(PostalCodeCity postalCodeCity);
+
+        Task<List<PostalCodeCity>> ListByPostalCodeAsync(long postalCodeId);
     }
 }

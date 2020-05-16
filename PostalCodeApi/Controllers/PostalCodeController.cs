@@ -28,7 +28,7 @@ namespace PostalCodeApi.Controllers
         /// Get a filtered, paginated and sorted list of Postal codes and their cities
         /// </summary>
         /// <param name="pagedAndSortedRequest">Pagination and sorting data</param>
-        /// <param name="inputResource">Search and country Iso</param>
+        /// <param name="resource">Search and country Iso</param>
         /// <returns>Response for the request</returns>
         [HttpGet]
         [ProducesResponseType(typeof(PagedAndSortedResponseResource<PostalCodeResource>), StatusCodes.Status200OK)]
@@ -36,14 +36,14 @@ namespace PostalCodeApi.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Search(
             [FromQuery] PagedAndSortedRequestResource pagedAndSortedRequest,
-            [FromQuery] SearchPostalCodeResource inputResource)
+            [FromQuery] SearchPostalCodeResource resource)
         {
             if (!ModelState.IsValid)
                 return BadRequest(new ErrorResource(StatusCodes.Status400BadRequest, ModelState.GetErrorMessages()));
 
             var pagedAndSortedPostalCodes = await _postalCodeService.SearchAsync(pagedAndSortedRequest.PageNumber,
-                pagedAndSortedRequest.PageSize, pagedAndSortedRequest.Sort, inputResource.Code,
-                inputResource.CountryIso);
+                pagedAndSortedRequest.PageSize, pagedAndSortedRequest.Sort, resource.Code,
+                resource.CountryIso);
             var resources =
                 _mapper.Map<PagedAndSortedList<PostalCode>, PagedAndSortedResponseResource<PostalCodeResource>>(
                     pagedAndSortedPostalCodes);

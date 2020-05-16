@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using PostalCodeApi.Domain.Models;
 using PostalCodeApi.Domain.Repositories;
@@ -36,6 +37,11 @@ namespace PostalCodeApi.Services
             {
                 return new PostalCodeCityResponse($"An error occurred when saving the postal code city: {ex.Message}");
             }
+        }
+
+        public async Task<List<PostalCodeCity>> GetListByPostalCodeAsync(long postalCodeId)
+        {
+            return await _postalCodeCityRepository.ListByPostalCodeAsync(postalCodeId);
         }
     }
 }

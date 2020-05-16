@@ -99,7 +99,7 @@ namespace PostalCodeApi.Controllers
 
             var response = await _userService.UpdatePasswordAsync(id, resource.OldPassword, resource.NewPassword);
 
-            if (response.Success == false)
+            if (!response.Success)
                 return StatusCode(response.StatusCode,
                     new ErrorResource(response.StatusCode, response.Message));
 
@@ -128,7 +128,7 @@ namespace PostalCodeApi.Controllers
 
             var response = await _userService.UpdateRoleAsync(id, resource.Role);
 
-            if (response.Success == false)
+            if (!response.Success)
                 return StatusCode(response.StatusCode,
                     new ErrorResource(response.StatusCode, response.Message));
 
@@ -156,7 +156,7 @@ namespace PostalCodeApi.Controllers
 
             var response = await _userService.DeleteAsync(id);
 
-            if (response.Success == false)
+            if (!response.Success)
                 return StatusCode(response.StatusCode,
                     new ErrorResource(response.StatusCode, response.Message));
 
@@ -184,7 +184,7 @@ namespace PostalCodeApi.Controllers
             var user = _mapper.Map<SaveUserResource, User>(resource);
             var response = await _userService.SaveAsync(user, resource.Password);
 
-            if (response.Success == false)
+            if (!response.Success)
                 return StatusCode(response.StatusCode,
                     new ErrorResource(response.StatusCode, response.Message));
 
