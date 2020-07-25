@@ -23,6 +23,8 @@ All the data is retrieved from [GeoNames](https://www.geonames.org/).
 By default, two users are created:
 * admin/123Aze@ (User with admin role)
 * user/123Aze@ (User with basic user role)
+
+You are more than welcome to use and modify the app as you please. 
  
 ## Pre-requisites
 
